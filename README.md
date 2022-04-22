@@ -170,6 +170,24 @@ The launch file is configured as following:
 </launch>
 ```
 
+If you have another sensor, please make sure you can export the point cloud data to your own topic name and remap it to `voxblox` in above launch file:
+
+```shell
+ <remap from="pointcloud" to="/camera/depth/color/points"/>
+```
+
+also, please change the transform to your own topic:
+
+```shell
+<remap from="transform" to="/vins_estimator/camera_transform" />
+```
+
+Note that the `transform` message should be the following format:
+
+```shell
+geometry_msg::TransformStamped
+```
+
 Since VINS-RGBD output pose is camera pose so that we do not need to configure the transformation matrix in `cfg`:
 
 ```shell
@@ -189,6 +207,16 @@ T_B_D:
 - [0.0, 0.0, 0.0, 1.0]
 invert_T_B_D: false
 ```
+
+To visualize the `voxblox` result, please open the `rviz config` from here:
+
+```shell
+voxblox/voxblox_ros/cfg/voxblox_vis.rviz
+```
+
+and make sure your frame id is `world`.
+
+
 
 To export the built mesh file, please run the following command in another terminal:
 
