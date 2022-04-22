@@ -185,7 +185,7 @@ also, please change the transform to your own topic:
 Note that the `transform` message should be the following format:
 
 ```shell
-geometry_msg::TransformStamped
+geometry_msgs::TransformStamped
 ```
 
 Since VINS-RGBD output pose is camera pose so that we do not need to configure the transformation matrix in `cfg`:
@@ -229,3 +229,64 @@ The output mesh will be exported to here:  `voxblox_ros/mesh_results/l515.ply`
 Here's the visualization of 3D reconstruction of my room with `MeshLab`:
 
 ![recon_result_meshlab](imgs/recon_result_meshlab_voxblox.gif)
+
+If you can not get your mesh updated in the `rviz` or the mesh topic is always empty, please make sure you have two major components ready:
+
+- your point cloud message
+
+- your pose message
+
+Among them, the point cloud message should be type:
+
+```shell
+sensor_msgs/PointCloud2
+```
+
+the pose message should be type:
+
+```shell
+geometry_msgs/TransformStamped
+```
+
+If your localization sensor is different from your LIDAR sensor, please transform it use the `voxblox_ros/cfg/xxx.yaml` file to transform it to the sensor which produce the point cloud.
+
+
+
+You can implement your own publisher to convert the camera pose to the desired message type:
+
+```cpp
+void pubCameraTransform(const Estimator &estimator, const std_msgs::Header &header)
+{
+    int idx2 = WINDOW_SIZE - 1;
+
+    if (estimator.solver_flag == Estimator::SolverFlag::NON_LINEAR)
+    {
+        int i = idx2;
+        Vector3d P = estimator.Ps[i] + estimator.Rs[i] * estimator.tic[0];
+        Quaterniond R = Quaterniond(estimator.Rs[i] * estimator.ric[0]);
+        geometry_msgs::TransformStamped tf_msg;
+        tf_msg.header = header;
+        tf_msg.header.frame_id = "world";
+        tf_msg.transform.translation.x = P.x();
+        tf_msg.transform.translation.y = P.y();
+        tf_msg.transform.translation.z = P.z();
+        tf_msg.transform.rotation.x = R.x();
+        tf_msg.transform.rotation.y = R.y();
+        tf_msg.transform.rotation.z = R.z();
+        tf_msg.transform.rotation.w = R.w();
+
+        //"camera_pose"
+        pub_camera_transform.publish(tf_msg);
+    }
+}
+```
+
+This is an example of modifying `VINS-RGBD` publisher. 
+
+
+
+Make sure your message `xxx_msg.header.frame_id`  is set to `world`.
+
+
+
+To be continued with boundfusion cuda backend with realtime high-res reconstruction pipeline.
