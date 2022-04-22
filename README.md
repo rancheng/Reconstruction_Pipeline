@@ -2,7 +2,7 @@
 
 ![voxblox_recon](imgs/voxblox_recon.gif "voxblox_recon")
 
-Recently we are trying to create dataset for 3D perception, so we need to create a 3D scanned environment like meta [Replica-Dataset](https://github.com/facebookresearch/Replica-Dataset). Our solution is to use the `VINS` system like `VINS-RGBD` and `Kimera` to generate the pose for the sequence and use BundleFusion to generate the mesh. So much for the talk, let's head into the tutorial.
+Recently we are trying to create dataset for 3D perception, so we need to create a 3D scanned environment like meta [Replica-Dataset](https://github.com/facebookresearch/Replica-Dataset). Our solution is to use the Realsense L515 sensor with `VINS` system like `VINS-RGBD` and `Kimera` to generate the pose for the sequence and use `voxblox` to generate the mesh. So much for the talk, let's head into the tutorial.
 
 ### Build VINS-RGBD & VoxBlox with docker
 
@@ -10,7 +10,7 @@ Building VINS-RGBD is similar to the ones with `VINS-Mono` , make sure you have 
 
 #### Build with Docker
 
-If you are tired of configuring all kinds of environments, there is a docker env shipped with this solution:  [recon_docker](http://rancheng.github.io). You can skip this if you want to configure your own environment locally.
+If you are tired of configuring all kinds of environments, there is a docker env shipped with this solution:  [recon_docker](https://github.com/rancheng/Reconstruction_Pipeline/tree/master/docker). You can skip this if you want to configure your own environment locally.
 
 ```shell
 cd docker/
@@ -215,8 +215,6 @@ voxblox/voxblox_ros/cfg/voxblox_vis.rviz
 ```
 
 and make sure your frame id is `world`.
-
-
 
 To export the built mesh file, please run the following command in another terminal:
 
