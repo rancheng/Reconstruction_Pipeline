@@ -1,0 +1,8 @@
+prefix=/usr/local
+
+Name: voxblox_ros
+Description: Description of voxblox_ros
+Version: 0.0.0
+Cflags: -I${prefix}/include
+Libs: -L${prefix}/lib -lvoxblox_ros
+Requires: cv_bridge gflags_catkin interactive_markers minkindr_conversions pcl_conversions pcl_ros sensor_msgs tf voxblox voxblox_msgs voxblox_rviz_plugin

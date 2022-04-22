@@ -1,0 +1,2 @@
+- setup-file:
+    local-name: /home/ran/CLionProjects/catkin_ws/src/voxblox/voxblox_ros/cmake-build-debug/devel/setup.sh

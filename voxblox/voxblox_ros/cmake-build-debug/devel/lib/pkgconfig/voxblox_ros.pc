@@ -1,0 +1,8 @@
+prefix=/home/ran/CLionProjects/catkin_ws/src/voxblox/voxblox_ros/cmake-build-debug/devel
+
+Name: voxblox_ros
+Description: Description of voxblox_ros
+Version: 0.0.0
+Cflags: -I/home/ran/CLionProjects/catkin_ws/src/voxblox/voxblox_ros/include
+Libs: -L${prefix}/lib -lvoxblox_ros
+Requires: cv_bridge gflags_catkin interactive_markers minkindr_conversions pcl_conversions pcl_ros sensor_msgs tf voxblox voxblox_msgs voxblox_rviz_plugin

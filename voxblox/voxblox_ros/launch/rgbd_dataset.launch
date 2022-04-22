@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="ISO-8859-15"?>
+<launch>
+  <arg name="robot_name" default="l515" />
+  <arg name="voxel_size" default="0.10" />
+  <arg name="voxels_per_side" default="16" />
+  <arg name="world_frame" default="world" />
+  <node name="voxblox_node" pkg="voxblox_ros" type="tsdf_server" output="screen" args="--alsologtostderr" clear_params="true">
+    <remap from="pointcloud" to="/camera/depth/color/points"/>
+    <remap from="voxblox_node/esdf_map_out" to="esdf_map" />
+    <param name="tsdf_voxel_size" value="$(arg voxel_size)" />
+    <param name="tsdf_voxels_per_side" value="$(arg voxels_per_side)" />
+    <param name="publish_esdf_map" value="true" />
+    <param name="publish_pointclouds" value="true" />
+    <param name="use_tf_transforms" value="true" />
+    <param name="update_mesh_every_n_sec" value="0.5" />
+    <param name="clear_sphere_for_planning" value="true" />
+    <param name="world_frame" value="$(arg world_frame)" />
+    <rosparam file="$(find voxblox_ros)/cfg/rgbd_dataset.yaml"/>
+    <param name="mesh_filename" value="$(find voxblox_ros)/mesh_results/l515.ply" />
+  </node>
+</launch>
