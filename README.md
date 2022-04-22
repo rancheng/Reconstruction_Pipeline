@@ -45,8 +45,6 @@ Ln201    RUN echo 'export DISPLAY=:0' >> /etc/profile
 
 After build your docker image, run it and it will pompt out the terminator, note that it supports `OpenGL` and `X11`. So that you can run `rviz` with your remote docker.
 
-
-
 To verify it, run the following command in your remote server:
 
 ```shell
@@ -70,8 +68,6 @@ If so, congratulations, you can run `rviz` remotely!
 ![dl_docker_gl_app](imgs/dl_docker_gl_app.gif)
 
 Now we can head into compiling the `VINS-RGBD` and `voxblox` ros nodes.
-
-
 
 #### Build Locally
 
@@ -100,8 +96,6 @@ wstool update
 # build project
 catkin_make
 ```
-
-
 
 ### Run VINS-RGBD
 
