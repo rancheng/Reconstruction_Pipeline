@@ -289,4 +289,8 @@ Make sure your message `xxx_msg.header.frame_id`  is set to `world`.
 
 
 
+In order to obtain a better reconstructed mesh. the best practice is to save the point cloud and pose stamps into a new bagfile and set the reconstruction resolution to 0.001m and play the bag 10x slower.
+
+
+
 To be continued with boundfusion cuda backend with realtime high-res reconstruction pipeline.
