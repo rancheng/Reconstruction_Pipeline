@@ -1,8 +1,8 @@
-# 3D-Recon: VINS-RGBD voxblox L515
+# 3D-Recon: VINS-RGBD voxblox
 
 ![voxblox_recon](imgs/voxblox_recon.gif "voxblox_recon")
 
-Recently we are trying to create dataset for 3D perception, so we need to create a 3D scanned environment like meta [Replica-Dataset](https://github.com/facebookresearch/Replica-Dataset). Our solution is to use the Realsense L515 sensor with `VINS` system like `VINS-RGBD` and `Kimera` to generate the pose for the sequence and use `voxblox` to generate the mesh. So much for the talk, let's head into the tutorial.
+Recently we are trying to create dataset for 3D perception, so we need to create a 3D scanned environment like meta [Replica-Dataset](https://github.com/facebookresearch/Replica-Dataset). Our solution is to use a RGBD sensor with IMU (e.g. Realsense L515 or Azure Kinect) with `VINS` system like `VINS-RGBD` and `Kimera` to generate the pose for the sequence and use `voxblox` to generate the mesh. So much for the talk, let's head into the tutorial.
 
 ### Build VINS-RGBD & VoxBlox
 
@@ -14,6 +14,7 @@ Building VINS-RGBD is similar to the ones with `VINS-Mono` , make sure you have 
 4. Sophus (checkout a621ff)
 5. Pangolin (0.6)
 6. OpenCV (3.4)
+7. [Realsense ROS wrapper](https://github.com/IntelRealSense/realsense-ros) or [Azure Kinect ROS Driver](https://github.com/microsoft/Azure_Kinect_ROS_Driver)
 
 #### Build with Docker
 
@@ -109,7 +110,11 @@ catkin_make
 To run with the VINS-RGBD system, one need to use the following command:
 
 ```shell
+# Realsense L515
 roslaunch vins_estimator realsense_color.launch
+
+# Azure Kinect
+roslaunch vins_estimator azure_color.launch
 ```
 
 Run the `Rviz` for VINS-RGBD
@@ -118,23 +123,38 @@ Run the `Rviz` for VINS-RGBD
 roslaunch vins_estimator vins_rviz.launch
 ```
 
-To run the L515 use the following command:
+To run the L515 or Azure Kinect use the following command:
 
 ```shell
+# Realsense L515
 roslaunch realsense2_camera rs_camera.launch \
 device_type:=l515 enable_gyro:=true enable_accel:=true \
 align_depth:=true unite_imu_method:=linear_interpolation \
 color_width:=1280 color_height:=720 color_fps:=30 \
 depth_fps:=30 enable_pointcloud:=true
+
+# Azure Kinect
+roslaunch azure_kinect_ros_driver driver.launch \
+depth_mode:=WFOV_2X2BINNED \
+color_resolution:=720P \
+fps:=30 \
+imu_rate_target:=200
 ```
 
 To run the rosbag if you want to record the raw `imu` ,`rgb`, `depth` with `point cloud` topics:
 
 ```shell
+# Realsense L515
 rosbag record /camera/aligned_depth_to_color/image_raw \
 /camera/color/image_raw /camera/imu /camera/depth/metadata \
 /camera/color/metadata /camera/color/camera_info \
 /camera/depth/color/points
+
+# Azure Kinect
+rosbag record /rgb/image_raw \
+/depth_to_rgb/image_raw /imu \
+/depth_to_rgb/camera_info /rgb/camera_info \
+/points2
 ```
 
 ### Run VoxBlox
@@ -142,10 +162,14 @@ rosbag record /camera/aligned_depth_to_color/image_raw \
 To run the voxblox, use the following command:
 
 ```shell
+# Realsense L515
 roslaunch voxblox_ros rgbd_dataset_l515.launch
+
+# Azure Kinect
+roslaunch voxblox_ros rgbd_dataset_azure.launch
 ```
 
-The launch file is configured as following:
+The launch file is configured as following (L525 for example):
 
 ```xml
 <?xml version="1.0" encoding="ISO-8859-15"?>
@@ -221,7 +245,20 @@ To visualize the `voxblox` result, please open the `rviz config` from here:
 voxblox/voxblox_ros/cfg/voxblox_vis.rviz
 ```
 
-and make sure your frame id is `world`.
+and make sure your frame id is `world`, and Image Topic is the corresponding topic published by your sensor:
+```shell
+# Relsense L515
+# line 71
+Image Topic: /camera/color/image_raw
+# line 91
+Image Topic: /camera/aligned_depth_to_color/image_raw
+
+# Azure Kinect
+# line 71
+Image Topic: /rgb/image_raw
+# line 91
+Image Topic: /depth_to_rgb/image_raw
+```
 
 To export the built mesh file, please run the following command in another terminal:
 

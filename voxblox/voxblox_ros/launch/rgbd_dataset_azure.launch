@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="ISO-8859-15"?>
+<launch>
+  <arg name="robot_name" default="azure" />
+  <arg name="voxel_size" default="0.05" />
+  <arg name="voxels_per_side" default="16" />
+  <arg name="world_frame" default="world" />
+  <node name="voxblox_node" pkg="voxblox_ros" type="tsdf_server" output="screen" args="--alsologtostderr" clear_params="true">
+    <remap from="pointcloud" to="/points2"/>
+    <remap from="voxblox_node/esdf_map_out" to="esdf_map" />
+    <param name="tsdf_voxel_size" value="$(arg voxel_size)" />
+    <param name="tsdf_voxels_per_side" value="$(arg voxels_per_side)" />
+    <param name="color_mode" value="color" />
+    <param name="voxel_carving_enabled" value="true" />
+    <param name="publish_esdf_map" value="true" />
+    <param name="update_mesh_every_n_sec" value="1.0" />
+    <param name="min_time_between_msgs_sec" value="0.0" />
+    <param name="publish_pointclouds" value="true" />
+    <param name="use_tf_transforms" value="false" />
+    <param name="update_mesh_every_n_sec" value="0.5" />
+    <param name="allow_clear" value="true" />
+    <remap from="transform" to="/vins_estimator/camera_transform" />
+    <param name="clear_sphere_for_planning" value="true" />
+    <param name="world_frame" value="$(arg world_frame)" />
+    <rosparam file="$(find voxblox_ros)/cfg/azure.yaml"/>
+    <param name="mesh_filename" value="$(find voxblox_ros)/mesh_results/azure.ply" />
+  </node>
+</launch>
