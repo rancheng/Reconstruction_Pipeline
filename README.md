@@ -4,9 +4,16 @@
 
 Recently we are trying to create dataset for 3D perception, so we need to create a 3D scanned environment like meta [Replica-Dataset](https://github.com/facebookresearch/Replica-Dataset). Our solution is to use the Realsense L515 sensor with `VINS` system like `VINS-RGBD` and `Kimera` to generate the pose for the sequence and use `voxblox` to generate the mesh. So much for the talk, let's head into the tutorial.
 
-### Build VINS-RGBD & VoxBlox with docker
+### Build VINS-RGBD & VoxBlox
 
-Building VINS-RGBD is similar to the ones with `VINS-Mono` , make sure you have ros environment. 
+Building VINS-RGBD is similar to the ones with `VINS-Mono` , make sure you have ros environment. The project was tested with:
+
+1. Ubuntu 18.04
+2. ROS version Melodic fully installation
+3. Ceres Solver (1.14.0)
+4. Sophus (checkout a621ff)
+5. Pangolin (0.6)
+6. OpenCV (3.4)
 
 #### Build with Docker
 
@@ -77,7 +84,7 @@ Initialize `ros` environment:
 mkdir -p ~/catkin_ws/src
 cd ~/catkin_ws
 catkin init
-catkin config --extend /opt/ros/kinetic
+catkin config --extend /opt/ros/melodic
 catkin config --cmake-args -DCMAKE_BUILD_TYPE=Release
 catkin config --merge-devel
 

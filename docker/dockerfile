@@ -182,7 +182,7 @@ RUN cd /root/ && git clone https://github.com/stevenlovegrove/Pangolin.git && \
 #     cmake .. && make -j12 install
 
 # install yaml cpp
-RUN apt install -y --no-install-recommends libyaml-cpp-dev python3-pip libboost-filesystem-dev libssl-dev mesa-utils python-wstool python-catkin-tools ros-kinetic-cmake-modules protobuf-compiler autoconf
+RUN apt install -y --no-install-recommends libyaml-cpp-dev python3-pip libboost-filesystem-dev libssl-dev mesa-utils python-wstool python-catkin-tools ros-melodic-cmake-modules protobuf-compiler autoconf libtool
 
 RUN apt install -y --no-install-recommends libxtst6
 
