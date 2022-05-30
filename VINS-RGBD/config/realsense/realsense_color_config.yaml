@@ -75,10 +75,10 @@ keyframe_parallax: 10.0 # keyframe selection threshold (pixel)
 
 #imu parameters       The more accurate parameters you provide, the better performance
 #for handheld, wheeld
-acc_n: 0.17734777020050743          # accelerometer measurement noise standard deviation. #0.2
-gyr_n: 0.025164728176658702         # gyroscope measurement noise standard deviation.     #0.05
-acc_w: 3.597469192477072e-05         # accelerometer bias random work noise standard deviation.  #0.02
-gyr_w: 2.7989737896517346e-06       # gyroscope bias random work noise standard deviation.     #4.0e-5
+acc_n: 0.1829589017330412          # accelerometer measurement noise standard deviation. #0.2
+gyr_n: 0.024480362284765463         # gyroscope measurement noise standard deviation.     #0.05
+acc_w: 3.7425273003024506e-05         # accelerometer bias random work noise standard deviation.  #0.02
+gyr_w: 2.5996760318842082e-06       # gyroscope bias random work noise standard deviation.     #4.0e-5
 
 ## IMU noise (Use those from VINS-mono)
 #IMU.NoiseGyro: 1.7794149940431553e-03 # 3 # 2.44e-4 #1e-3 # rad/s^0.5
