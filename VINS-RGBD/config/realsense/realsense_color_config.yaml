@@ -1,5 +1,7 @@
 %YAML:1.0
 
+# L515 Config
+
 #common parameters
 imu_topic: "/camera/imu"
 image_topic: "/camera/color/image_raw"
